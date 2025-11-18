@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Quiz - 100 MCQs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .question-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .question-number {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .category-tag {
+            background: #764ba2;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .question-text {
+            font-size: 18px;
+            color: #333;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .option.correct {
+            border-color: #10b981;
+            background: #d1fae5;
+        }
+
+        .option.wrong {
+            border-color: #ef4444;
+            background: #fee2e2;
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .option-letter {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .option.correct .option-letter {
+            background: #10b981;
+        }
+
+        .option.wrong .option-letter {
+            background: #ef4444;
+        }
+
+        .explanation {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-left: 4px solid #667eea;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .explanation-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .explanation-text {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #666;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .result-card {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .result-score {
+            font-size: 72px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 20px 0;
+        }
+
+        .result-message {
+            font-size: 24px;
+            color: #333;
+            margin: 20px 0;
+        }
+
+        .result-details {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .question-text {
+                font-size: 16px;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 DSA Master Quiz</h1>
+            <p>100 Questions to Master Data Structures & Algorithms</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value" id="currentQ">1</div>
+                <div class="stat-label">Question</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="correctCount">0</div>
+                <div class="stat-label">Correct</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="wrongCount">0</div>
+                <div class="stat-label">Wrong</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="accuracy">0%</div>
+                <div class="stat-label">Accuracy</div>
+            </div>
+        </div>
+
+        <div id="quizContainer"></div>
+
+        <div class="navigation">
+            <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()">← Previous</button>
+            <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            // Arrays and Strings (15 MCQs)
+            {category: "Arrays & Strings", question: "What is the time complexity to access an element in an array by index?", options: ["O(1)", "O(n)", "O(log n)", "O(n log n)"], correct: 0, explanation: "Array elements are stored in contiguous memory locations. With the base address and index, we can calculate the exact memory location directly using the formula: address = base + (index × element_size). This is a constant time operation O(1)."},
+            {category: "Arrays & Strings", question: 'What will be the output of: "abc".substring(1,3) in Java?', options: ["ab", "bc", "ac", "abc"], correct: 1, explanation: "In Java, substring(1,3) starts at index 1 (character 'b') and goes up to but NOT including index 3. So it extracts characters at indices 1 and 2, which are 'b' and 'c', resulting in 'bc'."},
+            {category: "Arrays & Strings", question: "Which method is used to find the length of an array in Java?", options: ["length()", "size()", "length", "count()"], correct: 2, explanation: "In Java, 'length' is a public field (not a method) of arrays. For arrays, you use arrayName.length (no parentheses). Note: ArrayList uses size() method instead."},
+            {category: "Arrays & Strings", question: "Which data structure is used to implement strings in most programming languages?", options: ["Array", "Stack", "Queue", "Graph"], correct: 0, explanation: "Strings are typically implemented as character arrays (array of chars) in most programming languages. This allows for efficient indexing and memory management."},
+            {category: "Arrays & Strings", question: 'What is the output of: "abc" + 1 + 2?', options: ["abc3", "abc12", "3abc", "1abc2"], correct: 1, explanation: "In Java/JavaScript, the + operator is evaluated left to right. 'abc' + 1 = 'abc1' (string concatenation), then 'abc1' + 2 = 'abc12'. Numbers are converted to strings and concatenated."},
+            {category: "Arrays & Strings", question: "How is a 2D array represented in memory?", options: ["As an array of arrays", "As a tree", "As a stack", "As a graph"], correct: 0, explanation: "A 2D array is implemented as an array of arrays (also called a jagged array or array of pointers). Each element of the first array is a pointer to another array, forming the 2D structure."},
+            {category: "Arrays & Strings", question: "Which of the following is not a valid string operation?", options: ["Concatenation", "Slicing", "Traversing", "Insertion at middle"], correct: 3, explanation: "Strings are typically immutable in most languages. While you can concatenate, slice, and traverse strings, you cannot directly insert at the middle. Any 'insertion' actually creates a new string."},
+            {category: "Arrays & Strings", question: "Which of the following is immutable?", options: ["String", "ArrayList", "LinkedList", "Queue"], correct: 0, explanation: "In Java, String objects are immutable - once created, their value cannot be changed. Any operation that appears to modify a String actually creates a new String object. ArrayList, LinkedList, and Queue are all mutable."},
+            {category: "Arrays & Strings", question: "How do you find duplicates in an array?", options: ["HashMap", "Stack", "Queue", "Graph"], correct: 0, explanation: "HashMap is ideal for finding duplicates. You can iterate through the array and store elements as keys with their count as values. If an element already exists in the HashMap, it's a duplicate. Time complexity: O(n), Space: O(n)."},
+            {category: "Arrays & Strings", question: "Which is faster: array or linked list (for access by index)?", options: ["Array", "Linked List", "Both", "None"], correct: 0, explanation: "Arrays provide O(1) random access because elements are stored contiguously and can be accessed directly via index. Linked lists require O(n) traversal from the head to reach the nth element."},
+            {category: "Arrays & Strings", question: "What is the default value of elements in an int array in Java?", options: ["-1", "1", "0", "undefined"], correct: 2, explanation: "In Java, when you create an integer array, all elements are automatically initialized to 0. This applies to all primitive types - they get default values (0 for numbers, false for boolean, etc.)."},
+            {category: "Arrays & Strings", question: "What is the index of first element in an array?", options: ["0", "1", "-1", "Depends on language"], correct: 0, explanation: "In most modern programming languages (C, C++, Java, Python, JavaScript), arrays are zero-indexed, meaning the first element is at index 0. This is for efficient memory address calculation."},
+            {category: "Arrays & Strings", question: "Which method is used to reverse a string in Java?", options: ["reverse()", "reverseString()", "StringBuilder.reverse()", "strrev()"], correct: 2, explanation: "In Java, strings are immutable, so you need to convert to StringBuilder first, then use its reverse() method. Example: new StringBuilder(str).reverse().toString()"},
+            {category: "Arrays & Strings", question: "What data structure would you use for implementing a leaderboard?", options: ["ArrayList", "Priority Queue", "HashMap", "Stack"], correct: 1, explanation: "Priority Queue (often implemented as a heap) is perfect for leaderboards. It maintains elements in sorted order and allows efficient insertion and retrieval of top elements (O(log n) insertion, O(1) to peek at top)."},
+            {category: "Arrays & Strings", question: "Which of the following is best for random access?", options: ["Array", "Linked List", "Stack", "Queue"], correct: 0, explanation: "Arrays provide the best random access with O(1) time complexity due to contiguous memory allocation. You can directly calculate and access any element's memory address using its index."},
+            
+            // Linked Lists (10 MCQs)
+            {category: "Linked Lists", question: "Time complexity to insert at head of a singly linked list?", options: ["O(n)", "O(1)", "O(log n)", "O(n log n)"], correct: 1, explanation: "Inserting at the head of a linked list only requires: 1) Create new node, 2) Point new node's next to current head, 3) Update head pointer to new node. These are constant time operations, so O(1)."},
+            {category: "Linked Lists", question: "In a doubly linked list, each node has:", options: ["1 pointer", "2 pointers", "3 pointers", "0 pointers"], correct: 1, explanation: "Each node in a doubly linked list has 2 pointers: one pointing to the next node and one pointing to the previous node. This allows bidirectional traversal but uses more memory than singly linked lists."},
+            {category: "Linked Lists", question: "Circular linked list is:", options: ["Last node points to null", "Last node points to head", "Head points to tail", "None"], correct: 1, explanation: "In a circular linked list, the last node's next pointer points back to the head node instead of null, forming a circle. This is useful for applications like round-robin scheduling."},
+            {category: "Linked Lists", question: "How to detect loop in linked list?", options: ["DFS", "Two pointers (slow/fast)", "BFS", "Sort"], correct: 1, explanation: "Floyd's Cycle Detection Algorithm (tortoise and hare) uses two pointers: slow moves 1 step, fast moves 2 steps. If there's a loop, they'll eventually meet. If fast reaches null, there's no loop. Time: O(n), Space: O(1)."},
+            {category: "Linked Lists", question: "Which operation is easiest in singly linked list?", options: ["Insertion at head", "Deletion at tail", "Random access", "Sorting"], correct: 0, explanation: "Insertion at head is O(1) - just create a new node and update the head pointer. Deletion at tail requires traversing to the second-last node O(n), random access is O(n), and sorting is O(n log n)."},
+            {category: "Linked Lists", question: "What is the time complexity to delete a node at position n in a singly linked list?", options: ["O(1)", "O(n)", "O(n log n)", "O(log n)"], correct: 1, explanation: "To delete a node at position n, you must traverse the list to reach the (n-1)th node to update its next pointer. This traversal takes O(n) time in the worst case."},
+            {category: "Linked Lists", question: "In linked list, memory is:", options: ["Contiguous", "Non-contiguous", "Fixed", "None"], correct: 1, explanation: "Linked list nodes are scattered throughout memory (non-contiguous). Each node can be allocated anywhere in the heap, and nodes are connected via pointers. This is unlike arrays which use contiguous memory blocks."},
+            {category: "Linked Lists", question: "Sentinel node is used:", options: ["For recursion", "For circular list", "To simplify operations", "To reduce memory"], correct: 2, explanation: "A sentinel (dummy) node is a placeholder node that simplifies edge cases in linked list operations. It eliminates the need for null checks when the list is empty, making code cleaner and reducing bugs."},
+            {category: "Linked Lists", question: "Which is better for memory efficiency?", options: ["Array", "Linked List", "Queue", "Tree"], correct: 1, explanation: "Linked lists are more memory efficient for dynamic sizes because they only allocate memory as needed. Arrays often pre-allocate space or need resizing. However, linked lists have overhead from storing pointers in each node."},
+            {category: "Linked Lists", question: "Advantage of linked list over array?", options: ["Fixed size", "Better cache", "Dynamic size", "Faster indexing"], correct: 2, explanation: "The main advantage of linked lists is dynamic size - they can grow and shrink easily without reallocation. Arrays have fixed size (or require costly resizing). However, arrays have better cache performance and faster indexing."},
+            
+            // Stacks and Queues (10 MCQs)
+            {category: "Stacks & Queues", question: "Which data structure uses LIFO order?", options: ["Queue", "Stack", "Array", "Linked List"], correct: 1, explanation: "Stack follows LIFO (Last In First Out) principle. The last element added is the first one to be removed, like a stack of plates. Operations: push (add to top) and pop (remove from top)."},
+            {category: "Stacks & Queues", question: "Which of the following uses FIFO order?", options: ["Stack", "Queue", "Tree", "Graph"], correct: 1, explanation: "Queue follows FIFO (First In First Out) principle. The first element added is the first one to be removed, like a line at a ticket counter. Operations: enqueue (add to rear) and dequeue (remove from front)."},
+            {category: "Stacks & Queues", question: "What is the time complexity of push operation in stack?", options: ["O(1)", "O(n)", "O(log n)", "O(n log n)"], correct: 0, explanation: "Push operation in a stack is O(1) because you simply add an element to the top. No traversal or shifting of elements is needed, whether implemented using arrays or linked lists."},
+            {category: "Stacks & Queues", question: "Which method is used to insert an element in a queue?", options: ["pop()", "push()", "enqueue()", "delete()"], correct: 2, explanation: "enqueue() is the standard operation to insert an element at the rear of a queue. 'push' is for stacks, 'pop' is for removal from stack, and 'delete' is a general term."},
+            {category: "Stacks & Queues", question: "Which method removes element from front of queue?", options: ["dequeue()", "push()", "pop()", "insert()"], correct: 0, explanation: "dequeue() removes and returns the element from the front of the queue. It follows the FIFO principle - the oldest element (first in) is removed first."},
+            {category: "Stacks & Queues", question: "What data structure is used in recursion?", options: ["Queue", "Stack", "Tree", "Graph"], correct: 1, explanation: "Recursion uses the call stack (a stack data structure). Each function call is pushed onto the stack with its local variables and return address. When a function returns, it's popped from the stack."},
+            {category: "Stacks & Queues", question: "Which data structure can be used to check balanced parentheses?", options: ["Array", "Stack", "Queue", "Tree"], correct: 1, explanation: "Stack is perfect for checking balanced parentheses. Push opening brackets onto stack, and when you encounter a closing bracket, pop and check if it matches. If stack is empty at the end, parentheses are balanced."},
+            {category: "Stacks & Queues", question: "What happens when stack overflows?", options: ["Program crashes", "Data is lost", "Returns 0", "Starts again"], correct: 0, explanation: "Stack overflow occurs when you try to push onto a full stack (in fixed-size implementation) or exceed the call stack limit (in recursion). This typically causes the program to crash with a StackOverflowError."},
+            {category: "Stacks & Queues", question: "What is the time complexity of dequeue operation in queue?", options: ["O(1)", "O(n)", "O(log n)", "O(n log n)"], correct: 0, explanation: "Dequeue operation in a queue is O(1) when properly implemented (using linked list or circular array). You simply remove the front element without any traversal or shifting of other elements."},
+            {category: "Stacks & Queues", question: "Which is used to implement stack?", options: ["Array", "Graph", "Tree", "HashMap"], correct: 0, explanation: "Stacks can be efficiently implemented using arrays (with a top pointer) or linked lists. Arrays are simpler and have better cache locality, but fixed size. Linked lists allow dynamic size but have pointer overhead."},
+            
+            // Trees (10 MCQs)
+            {category: "Trees", question: "Which tree traversal is used for expression trees?", options: ["Inorder", "Postorder", "Preorder", "Level Order"], correct: 1, explanation: "Postorder traversal (left-right-root) is used to evaluate expression trees. It processes operands before operators, which matches the order needed for evaluation. Example: for 'a+b', it visits a, b, then +."},
+            {category: "Trees", question: "What is the maximum number of nodes in a binary tree of height h?", options: ["2^h", "2^(h+1) - 1", "h^2", "h * log h"], correct: 1, explanation: "A complete binary tree of height h has nodes at levels 0 to h. Level i has 2^i nodes. Total = 2^0 + 2^1 + ... + 2^h = 2^(h+1) - 1. Height 0 (just root) = 1 node, height 1 = 3 nodes, height 2 = 7 nodes."},
+            {category: "Trees", question: "In a BST, what is the time complexity for search in average case?", options: ["O(1)", "O(n)", "O(log n)", "O(n log n)"], correct: 2, explanation: "In a balanced BST, search has O(log n) average case complexity. At each node, you eliminate half the tree by going left or right. In worst case (skewed tree), it becomes O(n)."},
+            {category: "Trees", question: "Which traversal gives nodes in sorted order in BST?", options: ["Preorder", "Inorder", "Postorder", "Level Order"], correct: 1, explanation: "Inorder traversal (left-root-right) of a Binary Search Tree gives nodes in ascending sorted order. This is because in BST, all left children are smaller and all right children are larger than the parent."},
+            {category: "Trees", question: "Which data structure is used in level order traversal?", options: ["Stack", "Queue", "Array", "Graph"], correct: 1, explanation: "Level order traversal (BFS) uses a queue. Start with root in queue, then repeatedly: dequeue a node, process it, enqueue its children. This ensures nodes are visited level by level from left to right."},
+            {category: "Trees", question: "What is a complete binary tree?", options: ["Every level except last is full", "All nodes have 2 children", "Every node has 1 child", "Tree with only leaf nodes"], correct: 0, explanation: "A complete binary tree has all levels completely filled except possibly the last level, which is filled from left to right. Heaps are implemented as complete binary trees for efficient array representation."},
+            {category: "Trees", question: "What is height of a tree with only root node?", options: ["0", "1", "-1", "2"], correct: 0, explanation: "Height is defined as the number of edges in the longest path from root to a leaf. A tree with only the root node has no edges, so height is 0. Some definitions use height 1 for single node, but 0 is standard."},
+            {category: "Trees", question: "AVL Tree is a type of:", options: ["Binary Tree", "Balanced Binary Search Tree", "Heap", "Graph"], correct: 1, explanation: "AVL tree is a self-balancing Binary Search Tree where the height difference between left and right subtrees is at most 1 for every node. It maintains O(log n) operations through rotations after insertions/deletions."},
+            {category: "Trees", question: "Which of these is not a tree traversal?", options: ["Inorder", "BFS", "Preorder", "Postorder"], correct: 1, explanation: "BFS (Breadth-First Search) is a graph traversal algorithm, not specifically a tree traversal method. Tree traversals are: Inorder (left-root-right), Preorder (root-left-right), Postorder (left-right-root), and Level Order (which uses BFS technique)."},
+            {category: "Trees", question: "What is the number of null links in a binary tree with n nodes?", options: ["n", "n+1", "2n", "2n+1"], correct: 1, explanation: "Every binary tree node has 2 pointers (left and right). With n nodes, there are 2n pointers total. n-1 pointers point to actual nodes (since n-1 edges connect n nodes). So null pointers = 2n - (n-1) = n+1."},
+            
+            // Graphs (10 MCQs)
+            {category: "Graphs", question: "Which of the following is used in DFS traversal?", options: ["Queue", "Stack", "Priority Queue", "Hash Table"], correct: 1, explanation: "DFS (Depth-First Search) uses a stack data structure. You can implement it recursively (using call stack) or iteratively with an explicit stack. DFS explores as deep as possible before backtracking."},
+            {category: "Graphs", question: "Which algorithm works only on Directed Acyclic Graphs (DAG)?", options: ["Kruskal", "Dijkstra", "Topological Sort", "Prim"], correct: 2, explanation: "Topological Sort only works on DAGs (Directed Acyclic Graphs). It provides a linear ordering of vertices such that for every directed edge u→v, u comes before v. Cycles make this impossible, so it requires a DAG."},
+            {category: "Graphs", question: "Which traversal is used in shortest path (unweighted graph)?", options: ["DFS", "BFS", "Inorder", "Preorder"], correct: 1, explanation: "BFS (Breadth-First Search) finds the shortest path in unweighted graphs. It explores nodes level by level, ensuring that when you reach a node, you've found the shortest path to it. Time complexity: O(V+E)."},
+            {category: "Graphs", question: "What is the time complexity of DFS in adjacency list?", options: ["O(V+E)", "O(V^2)", "O(E^2)", "O(log V)"], correct: 0, explanation: "DFS with adjacency list visits each vertex once O(V) and explores each edge once O(E), giving O(V+E) time complexity. With adjacency matrix, it would be O(V^2) since checking all neighbors takes O(V) per vertex."},
+            {category: "Graphs", question: "Which algorithm is used to detect cycle in directed graph?", options: ["DFS", "BFS", "Prim", "Dijkstra"], correct: 0, explanation: "DFS with recursion stack is commonly used to detect cycles in directed graphs. During DFS, if you encounter a vertex that's already in the current recursion stack, there's a back edge forming a cycle. Also works: Topological sort (if fails, cycle exists)."},
+            {category: "Graphs", question: "What is a strongly connected graph?", options: ["All nodes connected in one direction", "There is a path from every node to every other node", "All nodes have even degree", "None"], correct: 1, explanation: "A directed graph is strongly connected if there exists a path from every vertex to every other vertex (bidirectional reachability). For undirected graphs, this is simply called 'connected'. Kosaraju's or Tarjan's algorithm finds strongly connected components."},
+            {category: "Graphs", question: "Which algorithm is used in Minimum Spanning Tree?", options: ["DFS", "Prim's", "BFS", "Bellman-Ford"], correct: 1, explanation: "Prim's algorithm finds the Minimum Spanning Tree (MST) by greedily selecting the minimum weight edge that connects a vertex in the MST to a vertex outside it. Kruskal's algorithm is another popular MST algorithm. Both give O(E log V) with proper implementation."},
+            {category: "Graphs", question: "Which graph representation is most space efficient for sparse graphs?", options: ["Adjacency Matrix", "Adjacency List", "Incidence Matrix", "Edge List"], correct: 1, explanation: "Adjacency List is most space efficient for sparse graphs (few edges). It uses O(V+E) space. Adjacency Matrix always uses O(V²) space regardless of edges. For sparse graphs where E << V², adjacency list saves significant memory."},
+            {category: "Graphs", question: "In a complete graph with n vertices, how many edges exist?", options: ["n", "n^2", "n(n-1)/2", "n(n+1)/2"], correct: 2, explanation: "A complete graph has an edge between every pair of vertices. Number of ways to choose 2 vertices from n = C(n,2) = n(n-1)/2. For example, with 4 vertices, you get 4×3/2 = 6 edges."},
+            {category: "Graphs", question: "Which algorithm is used for shortest path with negative weights?", options: ["Dijkstra", "Bellman-Ford", "Prim", "Kruskal"], correct: 1, explanation: "Bellman-Ford algorithm handles negative weight edges and can detect negative cycles. It relaxes all edges V-1 times. Time: O(VE). Dijkstra's algorithm doesn't work with negative weights as it uses a greedy approach."},
+            
+            // Searching & Sorting (10 MCQs)
+            {category: "Searching & Sorting", question: "What is the time complexity of binary search?", options: ["O(n)", "O(log n)", "O(1)", "O(n log n)"], correct: 1, explanation: "Binary search divides the search space in half with each comparison, working on sorted arrays. After k comparisons, search space = n/2^k. When n/2^k = 1, we have k = log n. Time complexity: O(log n)."},
+            {category: "Searching & Sorting", question: "Merge Sort follows which algorithmic paradigm?", options: ["Greedy", "Divide and Conquer", "Dynamic Programming", "Backtracking"], correct: 1, explanation: "Merge Sort uses Divide and Conquer: 1) Divide array into two halves, 2) Recursively sort each half, 3) Merge the sorted halves. Time: O(n log n) in all cases. Space: O(n) for merging."},
+            {category: "Searching & Sorting", question: "Which sorting algorithm is best for small datasets?", options: ["Merge Sort", "Quick Sort", "Insertion Sort", "Radix Sort"], correct: 2, explanation: "Insertion Sort is best for small datasets (n < 10-20) due to low overhead and simplicity. Despite O(n²) worst case, it's fast on small inputs and has good cache performance. Many advanced algorithms switch to insertion sort for small subarrays."},
+            {category: "Searching & Sorting", question: "Which sorting algorithm is not comparison based?", options: ["Merge Sort", "Radix Sort", "Heap Sort", "Quick Sort"], correct: 1, explanation: "Radix Sort is not comparison-based. It sorts by processing individual digits/characters. Time: O(d×n) where d is number of digits. Other non-comparison sorts: Counting Sort, Bucket Sort. These can break the O(n log n) comparison-based lower bound."},
+            {category: "Searching & Sorting", question: "Quick Sort's worst-case time complexity is:", options: ["O(n log n)", "O(log n)", "O(n^2)", "O(n)"], correct: 2, explanation: "Quick Sort's worst case O(n²) occurs when pivot is always the smallest/largest element (already sorted array with bad pivot selection). This creates unbalanced partitions. Average case is O(n log n). Use randomized pivot or median-of-three to avoid worst case."},
+            {category: "Searching & Sorting", question: "Heap Sort uses which data structure?", options: ["Stack", "Heap", "Queue", "Tree"], correct: 1, explanation: "Heap Sort uses a binary heap (max-heap for ascending sort). Steps: 1) Build max-heap O(n), 2) Repeatedly extract max and place at end O(n log n). Total: O(n log n) time, O(1) space. In-place and not stable."},
+            {category: "Searching & Sorting", question: "What is the best case of Bubble Sort?", options: ["O(n)", "O(n log n)", "O(n^2)", "O(log n)"], correct: 0, explanation: "Bubble Sort's best case is O(n) when the array is already sorted. With an optimization (flag to check if any swaps occurred), it can detect this in one pass and terminate early. Without optimization, it's O(n²) even for sorted input."},
+            {category: "Searching & Sorting", question: "Which of the following is stable sort?", options: ["Quick Sort", "Heap Sort", "Merge Sort", "Selection Sort"], correct: 2, explanation: "Merge Sort is stable - it preserves the relative order of equal elements. Quick Sort and Heap Sort are typically not stable. Selection Sort is not stable. Stability matters when sorting by multiple keys or when order of equal elements is important."},
+            {category: "Searching & Sorting", question: "What is the average case of Quick Sort?", options: ["O(n^2)", "O(n log n)", "O(n)", "O(log n)"], correct: 1, explanation: "Quick Sort's average case is O(n log n) with good pivot selection. On average, partitions are reasonably balanced, giving log n levels of recursion with O(n) work per level. This makes it one of the fastest practical sorting algorithms."},
+            {category: "Searching & Sorting", question: "Which sorting algorithm is best for nearly sorted array?", options: ["Merge Sort", "Quick Sort", "Insertion Sort", "Selection Sort"], correct: 2, explanation: "Insertion Sort excels on nearly sorted arrays with time complexity approaching O(n). It performs minimal comparisons and swaps when elements are close to their correct positions. This adaptive behavior makes it ideal for nearly sorted data."},
+            
+            // Recursion & Backtracking (10 MCQs)
+            {category: "Recursion & Backtracking", question: "Which of the following problems is solved using backtracking?", options: ["Tower of Hanoi", "N-Queens", "Fibonacci", "Binary Search"], correct: 1, explanation: "N-Queens problem uses backtracking to place queens on a chessboard such that no two queens attack each other. Backtracking tries possibilities, backtracks when constraints are violated, and explores other options. Classic backtracking problems: N-Queens, Sudoku, Maze solving."},
+            {category: "Recursion & Backtracking", question: "What is the base case in recursion?", options: ["The case with the smallest input", "The infinite loop", "The recursive call", "None"], correct: 0, explanation: "The base case is the simplest case that can be solved directly without recursion. It stops the recursion from continuing infinitely. For example, factorial(0) = 1, fibonacci(0) = 0. Every recursive function must have at least one base case."},
+            {category: "Recursion & Backtracking", question: "Which data structure is used in recursion?", options: ["Queue", "Stack", "Linked List", "Heap"], correct: 1, explanation: "Recursion uses the call stack. Each recursive call pushes a new stack frame containing local variables, parameters, and return address. When a function returns, its frame is popped. Stack overflow occurs if recursion is too deep."},
+            {category: "Recursion & Backtracking", question: "Which is NOT a characteristic of recursion?", options: ["Base case", "Recursive call", "Iterative loop", "Stack usage"], correct: 2, explanation: "Recursion is characterized by: 1) Base case (termination condition), 2) Recursive call (function calling itself), 3) Stack usage (call stack). Iterative loops are the alternative to recursion, not a characteristic of it."},
+            {category: "Recursion & Backtracking", question: "Backtracking algorithm is:", options: ["Greedy", "Brute-force with optimization", "Divide and Conquer", "Dynamic Programming"], correct: 1, explanation: "Backtracking is essentially optimized brute-force. It tries all possibilities but abandons (backtracks from) a path as soon as it determines the path cannot lead to a solution. This pruning makes it more efficient than pure brute-force."},
+            {category: "Recursion & Backtracking", question: "What is the time complexity of recursive Fibonacci?", options: ["O(1)", "O(log n)", "O(n)", "O(2^n)"], correct: 3, explanation: "Naive recursive Fibonacci has O(2^n) complexity because it recalculates the same values repeatedly. fib(n) calls fib(n-1) and fib(n-2), creating an exponential tree of calls. Memoization reduces this to O(n)."},
+            {category: "Recursion & Backtracking", question: "Which problem is solved using recursion naturally?", options: ["Tree Traversal", "Searching", "Sorting", "Hashing"], correct: 0, explanation: "Tree Traversal is naturally recursive because trees are recursive data structures (each subtree is itself a tree). Traversals like inorder, preorder, and postorder are elegantly expressed recursively, though iterative solutions exist."},
+            {category: "Recursion & Backtracking", question: "What happens if base case is missing in recursion?", options: ["Returns null", "Infinite recursion", "Compilation error", "Stack is unused"], correct: 1, explanation: "Without a base case, recursion never stops, leading to infinite recursion. This continues until the call stack is exhausted, causing a StackOverflowError. The base case is essential for recursion termination."},
+            {category: "Recursion & Backtracking", question: "In recursion, every call is stored in:", options: ["Heap", "Stack", "Queue", "Array"], correct: 1, explanation: "Each recursive call creates a stack frame on the call stack, storing local variables, parameters, and return address. The stack grows with each call and shrinks as functions return. This is why deep recursion can cause stack overflow."},
+            {category: "Recursion & Backtracking", question: "The function calls itself in:", options: ["Iteration", "Recursion", "Inheritance", "Encapsulation"], correct: 1, explanation: "Recursion is when a function calls itself, either directly or indirectly. Each call works on a smaller subset of the problem until reaching the base case. This is fundamentally different from iteration which uses loops."},
+            
+            // Dynamic Programming (10 MCQs)
+            {category: "Dynamic Programming", question: "What is dynamic programming?", options: ["Divide & Conquer", "Solving problems by combining solutions to subproblems", "Sorting method", "Recursion without memoization"], correct: 1, explanation: "Dynamic Programming solves complex problems by breaking them into overlapping subproblems, solving each once, and storing results. It combines memoization with optimal substructure. Used when problems have overlapping subproblems and optimal substructure properties."},
+            {category: "Dynamic Programming", question: "Which of these is a classic DP problem?", options: ["Prim's Algorithm", "Longest Common Subsequence", "Binary Search", "DFS"], correct: 1, explanation: "Longest Common Subsequence (LCS) is a classic DP problem. Given two sequences, find the longest subsequence present in both. It has overlapping subproblems and optimal substructure, making it perfect for DP. Time: O(m×n), Space: O(m×n)."},
+            {category: "Dynamic Programming", question: "In DP, overlapping subproblems mean:", options: ["Subproblems are unrelated", "Same subproblems are solved multiple times", "Problem can't be solved", "Using recursion"], correct: 1, explanation: "Overlapping subproblems means the same subproblem is encountered multiple times in naive recursion. DP stores (memoizes) solutions to avoid recalculating. Example: In Fibonacci, fib(5) calculates fib(3) multiple times. DP calculates each only once."},
+            {category: "Dynamic Programming", question: "What is memoization?", options: ["Looping", "Storing results of expensive function calls", "Searching algorithm", "Sorting algorithm"], correct: 1, explanation: "Memoization is a top-down DP technique where you store (cache) results of function calls in a table (usually array/hashmap). Before computing, check if result exists. This avoids redundant calculations. Example: Fibonacci with memo is O(n) vs O(2^n) without."},
+            {category: "Dynamic Programming", question: "Which method is bottom-up DP?", options: ["Recursion", "Tabulation", "Memoization", "Brute force"], correct: 1, explanation: "Tabulation is bottom-up DP where you build a table iteratively from base cases up to the final solution. No recursion involved. Generally more space efficient than memoization. Example: Fibonacci: dp[0]=0, dp[1]=1, dp[i]=dp[i-1]+dp[i-2]."},
+            {category: "Dynamic Programming", question: "Knapsack problem is solved by:", options: ["Greedy", "DP", "BFS", "DFS"], correct: 1, explanation: "0-1 Knapsack is solved using Dynamic Programming. For each item, decide whether to include it or not, considering weight constraint and maximizing value. DP table: dp[i][w] = max value using first i items with weight limit w. Time: O(n×W)."},
+            {category: "Dynamic Programming", question: "What is the space complexity of bottom-up DP?", options: ["Always O(1)", "Depends on problem", "O(log n)", "O(1)"], correct: 1, explanation: "Space complexity depends on the DP problem and implementation. Some need 2D arrays O(n²), others 1D O(n). Many can be optimized (e.g., Fibonacci only needs last 2 values = O(1)). It's problem-dependent but generally O(state space)."},
+            {category: "Dynamic Programming", question: "What is optimal substructure?", options: ["Problem can be broken into optimal subproblems", "Problem cannot be divided", "Only works in sorting", "Related to hash table"], correct: 0, explanation: "Optimal substructure means an optimal solution contains optimal solutions to subproblems. Example: Shortest path from A to C through B uses shortest paths A→B and B→C. This property is essential for DP and greedy algorithms."},
+            {category: "Dynamic Programming", question: "Which of these uses DP?", options: ["N-Queens", "Matrix Chain Multiplication", "Kruskal", "Prim's"], correct: 1, explanation: "Matrix Chain Multiplication uses DP to find the optimal order to multiply matrices, minimizing scalar multiplications. Problem: Given dimensions, find best parenthesization. DP table stores minimum operations for each subproblem. Time: O(n³)."},
+            {category: "Dynamic Programming", question: "Top-down approach is also called:", options: ["Tabulation", "Memoization", "Brute Force", "DFS"], correct: 1, explanation: "Top-down DP approach is called memoization. Start with the original problem and recursively break it down, storing results in a memo table. Check memo before computing. It's intuitive and similar to natural recursion but avoids redundant calculations."},
+            
+            // Greedy Algorithms (5 MCQs)
+            {category: "Greedy Algorithms", question: "Greedy algorithms always:", options: ["Choose local optimum", "Choose global optimum", "Use recursion", "None"], correct: 0, explanation: "Greedy algorithms make locally optimal choices at each step, hoping to find global optimum. They don't reconsider choices. Works when local optimum leads to global optimum (greedy choice property). Examples: Dijkstra's, Huffman coding, Activity Selection."},
+            {category: "Greedy Algorithms", question: "Greedy strategy fails in:", options: ["Fractional Knapsack", "0-1 Knapsack", "Activity Selection", "Huffman Encoding"], correct: 1, explanation: "Greedy fails on 0-1 Knapsack (must take entire item or none). Choosing highest value/weight ratio doesn't guarantee optimal solution. Example: Items (60,10) (100,20) (120,30), capacity 50. Greedy picks (60,10) + (100,20) = 160, but optimal is (100,20) + (120,30) = 220. Use DP instead."},
+            {category: "Greedy Algorithms", question: "Huffman coding is based on:", options: ["Sorting", "Greedy", "Backtracking", "DFS"], correct: 1, explanation: "Huffman Coding uses greedy approach to build optimal prefix-free codes for data compression. Repeatedly combine two minimum frequency nodes into a tree. Characters with higher frequency get shorter codes. Produces optimal compression without needing to try all possibilities."},
+            {category: "Greedy Algorithms", question: "Which of the following uses greedy?", options: ["Dijkstra", "Bellman-Ford", "Binary Search", "Merge Sort"], correct: 0, explanation: "Dijkstra's algorithm for shortest path uses greedy approach: always choose the unvisited vertex with minimum distance from source. This greedy choice leads to optimal solution for non-negative weights. Time: O((V+E) log V) with min-heap."},
+            {category: "Greedy Algorithms", question: "Activity Selection Problem uses:", options: ["Dynamic Programming", "Greedy Approach", "Divide & Conquer", "Brute Force"], correct: 1, explanation: "Activity Selection Problem uses greedy: Select the activity that finishes first (earliest end time), then repeat for remaining compatible activities. Sorting by end time + greedy selection gives optimal solution. Time: O(n log n) for sorting + O(n) for selection."},
+            
+            // Complexity & Big-O (10 MCQs)
+            {category: "Complexity & Big-O", question: "What is the time complexity of linear search?", options: ["O(1)", "O(n)", "O(log n)", "O(n^2)"], correct: 1, explanation: "Linear search checks each element sequentially until finding the target or reaching the end. In worst case, it examines all n elements. Average case is also O(n). Best case is O(1) when element is first."},
+            {category: "Complexity & Big-O", question: "Best case time complexity of binary search?", options: ["O(log n)", "O(n)", "O(1)", "O(n log n)"], correct: 2, explanation: "Best case for binary search is O(1) when the middle element is the target on the first comparison. However, average and worst cases are O(log n), which is why we typically cite O(log n) as binary search complexity."},
+            {category: "Complexity & Big-O", question: "Time complexity of accessing array element by index?", options: ["O(log n)", "O(1)", "O(n)", "O(n log n)"], correct: 1, explanation: "Array access by index is O(1) constant time. Memory address is calculated directly: base_address + (index × element_size). No searching or iteration needed. This is a key advantage of arrays over linked lists."},
+            {category: "Complexity & Big-O", question: "What does Big O represent?", options: ["Best case", "Average case", "Worst case", "No case"], correct: 2, explanation: "Big O notation represents the upper bound or worst-case scenario of an algorithm's time/space complexity as input size grows. It describes how performance scales. O(n) means at most linear growth. Also used for average case, but primarily for worst case."},
+            {category: "Complexity & Big-O", question: "Which of the following grows fastest?", options: ["O(1)", "O(n)", "O(n log n)", "O(n!)"], correct: 3, explanation: "Growth rates from slowest to fastest: O(1) < O(log n) < O(n) < O(n log n) < O(n²) < O(2^n) < O(n!). Factorial O(n!) grows extremely fast (n! = n×(n-1)×...×1). For n=10, 10! = 3,628,800. Avoid algorithms with factorial complexity!"},
+            {category: "Complexity & Big-O", question: "What is the space complexity of recursive factorial?", options: ["O(n)", "O(log n)", "O(1)", "O(n^2)"], correct: 0, explanation: "Recursive factorial has O(n) space complexity due to call stack. factorial(n) calls factorial(n-1), creating n stack frames before starting to return. Each frame stores local variables and return address. Iterative factorial is O(1) space."},
+            {category: "Complexity & Big-O", question: "Which is slower in growth rate?", options: ["O(n)", "O(n log n)", "O(n^2)", "O(2^n)"], correct: 1, explanation: "Among these options, O(n log n) grows slower than the others after O(n). Order: O(n) < O(n log n) < O(n²) < O(2^n). O(n log n) is typical for efficient sorting algorithms like Merge Sort and Heap Sort."},
+            {category: "Complexity & Big-O", question: "What is the time complexity of inserting in a hash table (average case)?", options: ["O(log n)", "O(n)", "O(1)", "O(n^2)"], correct: 2, explanation: "Hash table insertion is O(1) average case. Hash function computes index directly, then insert at that location. Worst case is O(n) when all keys collide. With good hash function and load factor management, O(1) is maintained."},
+            {category: "Complexity & Big-O", question: "What is the time complexity of traversing a linked list?", options: ["O(1)", "O(log n)", "O(n)", "O(n^2)"], correct: 2, explanation: "Traversing a linked list requires visiting each of the n nodes sequentially by following next pointers. There's no way to skip nodes or jump directly to positions. Time complexity: O(n) regardless of what you're doing at each node."},
+            {category: "Complexity & Big-O", question: "Time complexity of enqueue operation in queue?", options: ["O(1)", "O(log n)", "O(n)", "O(n log n)"], correct: 0, explanation: "Enqueue (inserting at rear of queue) is O(1) when properly implemented using linked list or circular array. You simply add element to rear position without moving other elements. Both enqueue and dequeue are O(1) operations."}
+        ];
+
+        let currentQuestion = 0;
+        let correctAnswers = 0;
+        let wrongAnswers = 0;
+        let selectedAnswer = null;
+        let answered = false;
+
+        function updateStats() {
+            document.getElementById('currentQ').textContent = currentQuestion + 1;
+            document.getElementById('correctCount').textContent = correctAnswers;
+            document.getElementById('wrongCount').textContent = wrongAnswers;
+            const total = correctAnswers + wrongAnswers;
+            const accuracy = total > 0 ? Math.round((correctAnswers / total) * 100) : 0;
+            document.getElementById('accuracy').textContent = accuracy + '%';
+            document.getElementById('progressFill').style.width = ((currentQuestion + 1) / quizData.length * 100) + '%';
+        }
+
+        function renderQuestion() {
+            const q = quizData[currentQuestion];
+            const container = document.getElementById('quizContainer');
+            
+            container.innerHTML = `
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="question-number">Question ${currentQuestion + 1}/${quizData.length}</span>
+                        <span class="category-tag">${q.category}</span>
+                    </div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="options">
+                        ${q.options.map((opt, idx) => `
+                            <div class="option" onclick="selectOption(${idx})">
+                                <div class="option-letter">${String.fromCharCode(65 + idx)}</div>
+                                <div>${opt}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="explanation" id="explanation">
+                        <div class="explanation-title"></div>
+                        <div class="explanation-text">${q.explanation}</div>
+                    </div>
+                </div>
+            `;
+
+            selectedAnswer = null;
+            answered = false;
+            updateStats();
+            updateButtons();
+        }
+
+        function selectOption(idx) {
+            if (answered) return;
+
+            selectedAnswer = idx;
+            const q = quizData[currentQuestion];
+            const options = document.querySelectorAll('.option');
+            
+            options.forEach((opt, i) => {
+                opt.classList.add('disabled');
+                if (i === idx) {
+                    if (i === q.correct) {
+                        opt.classList.add('correct');
+                        correctAnswers++;
+                        document.querySelector('.explanation-title').textContent = '✅ Correct!';
+                        document.querySelector('.explanation-title').style.color = '#10b981';
+                    } else {
+                        opt.classList.add('wrong');
+                        wrongAnswers++;
+                        document.querySelector('.explanation-title').textContent = '❌ Wrong!';
+                        document.querySelector('.explanation-title').style.color = '#ef4444';
+                    }
+                }
+                if (i === q.correct && i !== idx) {
+                    opt.classList.add('correct');
+                }
+            });
+
+            document.getElementById('explanation').classList.add('show');
+            answered = true;
+            updateStats();
+            updateButtons();
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < quizData.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+            }
+        }
+
+        function updateButtons() {
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('nextBtn').textContent = currentQuestion === quizData.length - 1 ? 'Finish Quiz' : 'Next →';
+        }
+
+        function showResults() {
+            const container = document.getElementById('quizContainer');
+            const total = quizData.length;
+            const percentage = Math.round((correctAnswers / total) * 100);
+            
+            let message = '';
+            if (percentage >= 90) message = '🎉 Outstanding! You are a DSA Master!';
+            else if (percentage >= 75) message = '🌟 Excellent! You have strong DSA knowledge!';
+            else if (percentage >= 60) message = '👍 Good job! Keep practicing!';
+            else if (percentage >= 40) message = '📚 Not bad! Review the concepts and try again!';
+            else message = '💪 Keep learning! Practice makes perfect!';
+
+            container.innerHTML = `
+                <div class="result-card">
+                    <h2>Quiz Completed!</h2>
+                    <div class="result-score">${percentage}%</div>
+                    <div class="result-message">${message}</div>
+                    <div class="result-details">
+                        <div class="stat-item">
+                            <div class="stat-value" style="color: #10b981;">${correctAnswers}</div>
+                            <div class="stat-label">Correct</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" style="color: #ef4444;">${wrongAnswers}</div>
+                            <div class="stat-label">Wrong</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" style="color: #667eea;">${total}</div>
+                            <div class="stat-label">Total</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="location.reload()" style="margin-top: 30px; padding: 15px 40px; font-size: 18px;">
+                        🔄 Restart Quiz
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('prevBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'none';
+        }
+
+        // Initialize quiz
+        renderQuestion();
+    </script>
+</body>
+</html>
